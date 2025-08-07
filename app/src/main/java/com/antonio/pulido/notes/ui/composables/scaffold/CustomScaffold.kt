@@ -1,0 +1,49 @@
+package com.antonio.pulido.notes.ui.composables.scaffold
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.antonio.pulido.notes.R
+import com.antonio.pulido.notes.ui.composables.buttons.CustomFab
+import com.antonio.pulido.notes.ui.composables.topbar.CustomTopBar
+
+@Composable
+fun CustomScaffold(
+    modifier: Modifier = Modifier,
+    @StringRes title: Int,
+    isHome: Boolean = true,
+    floatingActionButton: @Composable () -> Unit,
+    contentBody: @Composable () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            CustomTopBar(
+                title = title,
+                isHome = isHome
+            )
+        },
+        floatingActionButton = {
+           floatingActionButton()
+        }
+    ) { paddingValues ->
+        Surface(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            color = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Column(
+                modifier = modifier.fillMaxSize()
+            ) {
+                contentBody()
+            }
+        }
+    }
+}
