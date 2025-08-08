@@ -104,7 +104,7 @@ fun DrawingDialog(
                             onDrag = { change, dragAmount ->
                                 change.consume()
                                 val newOffset = lastOffset + dragAmount
-                                currentPath.quadraticBezierTo(
+                                currentPath.quadraticTo(
                                     lastOffset.x,
                                     lastOffset.y,
                                     (newOffset.x + lastOffset.x) / 2,
@@ -146,7 +146,7 @@ fun DrawingDialog(
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
-                    val bitmap = captureDrawing(paths, 300.dp.value.toInt())
+                    val bitmap = captureDrawing(paths)
                     onDrawingFinished(bitmap)
                 }) {
                     Icon(Icons.Filled.Check, contentDescription = "Guardar dibujo")
@@ -158,7 +158,7 @@ fun DrawingDialog(
     }
 }
 
-fun captureDrawing(paths: List<Pair<Path, Color>>, strokeWidth: Int): Bitmap {
+fun captureDrawing(paths: List<Pair<Path, Color>>): Bitmap {
     val bitmap = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_8888)
     val canvas = android.graphics.Canvas(bitmap)
 
@@ -177,146 +177,3 @@ fun captureDrawing(paths: List<Pair<Path, Color>>, strokeWidth: Int): Bitmap {
 
     return bitmap
 }
-
-//@Composable
-//fun DrawingDialog(
-//    onDrawingFinished: (Bitmap) -> Unit,
-//    onDismiss: () -> Unit
-//) {
-//    var path by remember { mutableStateOf(Path()) }
-//    var currentColor by remember { mutableStateOf(Color.Black) }
-//    var currentStrokeWidth by remember { mutableStateOf(5f) }
-//    val paths = remember { mutableStateListOf<Pair<Path, Paint>>() }
-//    val coroutineScope = rememberCoroutineScope()
-//    val bitmapState = remember { mutableStateOf<Bitmap?>(null) }
-//
-//    Dialog(
-//        onDismissRequest = onDismiss,
-//        properties = DialogProperties(usePlatformDefaultWidth = false)
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp)
-//                .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
-//                .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
-//                .padding(16.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Text("Dibujar", style = MaterialTheme.typography.titleLarge)
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            // Controles de color
-//            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-//                val colors = listOf(Color.Black, Color.Red, Color.Blue, Color.Green, Color.Yellow)
-//                items(colors) { color ->
-//                    val isSelected = currentColor == color
-//                    Button(
-//                        onClick = { currentColor = color },
-//                        shape = CircleShape,
-//                        colors = ButtonDefaults.buttonColors(containerColor = color),
-//                        modifier = Modifier
-//                            .size(30.dp)
-//                            .border(
-//                                width = if (isSelected) 2.dp else 0.dp,
-//                                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-//                                shape = CircleShape
-//                            )
-//                    ) {}
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(8.dp))
-//
-//            // Control de grosor de línea
-//            Row(
-//                horizontalArrangement = Arrangement.spacedBy(8.dp),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Text("Grosor:", style = MaterialTheme.typography.bodySmall)
-//                Slider(
-//                    value = currentStrokeWidth,
-//                    onValueChange = { currentStrokeWidth = it },
-//                    valueRange = 1f..50f,
-//                    steps = 49,
-//                    modifier = Modifier.weight(1f)
-//                )
-//            }
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            // Lienzo de dibujo
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(300.dp)
-//                    .background(Color.White)
-//                    .border(1.dp, Color.Black)
-//            ) {
-//                Canvas(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .pointerInput(Unit) {
-//                            detectDragGestures(
-//                                onDragStart = { offset ->
-//                                    path.moveTo(offset.x, offset.y)
-//                                },
-//                                onDrag = { change, _ ->
-//                                    change.consume()
-//                                    path.lineTo(change.position.x, change.position.y)
-//                                },
-//                                onDragEnd = {
-//                                    paths.add(path to Paint().apply {
-//                                        color = currentColor.toArgb()
-//                                        strokeWidth = currentStrokeWidth
-//                                        style = Paint.Style.STROKE
-//                                        strokeCap = Paint.Cap.ROUND
-//                                        strokeJoin = Paint.Join.ROUND
-//                                        isAntiAlias = true
-//                                    })
-//                                    path = Path() // Reset path for the next stroke
-//                                }
-//                            )
-//                        }
-//                ) {
-//                    paths.forEach { (p, paint) ->
-//                        drawPath(
-//                            path = p,
-//                            color = Color(paint.color),
-//                            style = Stroke(width = paint.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
-//                        )
-//                    }
-//                    drawPath(
-//                        path = path,
-//                        color = currentColor,
-//                        style = Stroke(width = currentStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
-//                    )
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            // Botones de acción
-//            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
-//                TextButton(onClick = onDismiss) {
-//                    Icon(Icons.Filled.Close, contentDescription = "Cancelar")
-//                    Spacer(Modifier.width(8.dp))
-//                    Text("Cancelar")
-//                }
-//                Spacer(modifier = Modifier.width(8.dp))
-//                Button(onClick = {
-//                    coroutineScope.launch {
-////                        val bitmap = captureBitmap(paths, 300.dp.value.toInt(), 300.dp.value.toInt())
-////                        onDrawingFinished(bitmap)
-//                    }
-//                }) {
-//                    Icon(Icons.Filled.Check, contentDescription = "Guardar dibujo")
-//                    Spacer(Modifier.width(8.dp))
-//                    Text("Guardar")
-//                }
-//            }
-//        }
-//    }
-//}
-
-
-
-
-

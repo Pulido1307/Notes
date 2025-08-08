@@ -9,19 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.antonio.pulido.notes.R
-import com.antonio.pulido.notes.ui.theme.Dimensions
-import com.antonio.pulido.notes.ui.theme.LocalSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar(
-    modifier: Modifier = Modifier,
-    spacing: Dimensions = LocalSpacing.current,
     @StringRes title: Int,
     isHome: Boolean,
     navigationAction: () -> Unit = {},

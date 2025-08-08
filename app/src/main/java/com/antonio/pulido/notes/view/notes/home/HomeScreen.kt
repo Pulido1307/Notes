@@ -31,7 +31,6 @@ import com.antonio.pulido.notes.R
 import com.antonio.pulido.notes.ui.composables.bottomsheet.CustomBottomSheetLayout
 import com.antonio.pulido.notes.ui.composables.buttons.CustomFab
 import com.antonio.pulido.notes.ui.composables.card.NoteCard
-import com.antonio.pulido.notes.ui.composables.dialog.captureDrawing
 import com.antonio.pulido.notes.ui.composables.scaffold.CustomScaffold
 import com.antonio.pulido.notes.ui.theme.Dimensions
 import com.antonio.pulido.notes.ui.theme.LocalSpacing
@@ -51,8 +50,8 @@ fun HomeScreen(
                 onClick = { navToDetailNote(-1) },
                 icon = R.drawable.ic_add,
                 text = R.string.add_button,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         }
     ) {
