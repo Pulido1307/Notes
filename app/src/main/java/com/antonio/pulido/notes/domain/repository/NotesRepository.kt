@@ -7,4 +7,5 @@ interface NotesRepository {
     suspend fun addNote(noteEntity: NoteEntity)
     fun getNotes(): Flow<List<NoteEntity>>
     suspend fun getNote(id: Int): NoteEntity
+    suspend fun updateNote(noteEntity: NoteEntity)
 }

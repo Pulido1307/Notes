@@ -15,3 +15,10 @@ fun Note.toDataRequest() = NoteEntity(
     content = this.content,
     imagePath = this.imagePath
 )
+
+fun Note.toDataRequestForUpdate() = NoteEntity(
+    id = this.id,
+    title = this.title,
+    content = this.content,
+    imagePath = this.imagePath
+)

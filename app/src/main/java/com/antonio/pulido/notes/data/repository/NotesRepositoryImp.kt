@@ -20,4 +20,8 @@ class NotesRepositoryImp @Inject constructor(
     override suspend fun getNote(id: Int): NoteEntity {
         return noteDao.getNote(id)
     }
+
+    override suspend fun updateNote(noteEntity: NoteEntity) {
+        return noteDao.updateNote(noteEntity)
+    }
 }

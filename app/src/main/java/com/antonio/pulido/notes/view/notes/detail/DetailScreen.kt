@@ -45,7 +45,6 @@ fun DetailScreen(
         }
     }
 
-    val context = LocalContext.current
     LaunchedEffect(true) {
         if (noteId != -1) {
             detailViewModel.onEvent(DetailViewEvent.GetNoteById(noteId))
@@ -53,7 +52,7 @@ fun DetailScreen(
     }
 
     CustomScaffold(
-        title = R.string.add_note_screen_title,
+        title = uiState.titleScreen,
         isHome = false,
         floatingActionButton = {
             CustomFabMenu(
@@ -64,7 +63,7 @@ fun DetailScreen(
                 }
             )
         },
-        actionClick = { detailViewModel.onEvent(DetailViewEvent.AddNote) },
+        actionClick = { detailViewModel.onEvent(DetailViewEvent.SaveNote) },
         navigationAction = onBack
     ) {
         Column(
@@ -95,10 +94,16 @@ fun DetailScreen(
                 NoteImage(
                     imageUri = uiState.imagePath!!
                 )
-            } else if (noteId != -1 && uiState.imagePathRecovery != null) {
-                NoteImage(
-                    imagePath = uiState.imagePathRecovery ?: ""
-                )
+            } else if (noteId != -1) {
+                if (uiState.imagePathRecovery != null) {
+                    NoteImage(
+                        imagePath = uiState.imagePathRecovery ?: ""
+                    )
+                } else {
+                    NoteImage(
+                        imageUri = uiState.imagePath!!
+                    )
+                }
             }
             Spacer(modifier = modifier.height(spacing.spaceExtraLarge))
         }
