@@ -20,6 +20,11 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 28.sp
+    ), titleSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 28.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
