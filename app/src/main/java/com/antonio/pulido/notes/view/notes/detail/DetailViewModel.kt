@@ -100,12 +100,6 @@ class DetailViewModel @Inject constructor(
             } else {
                 updateNote()
             }
-        } else {
-            Toast.makeText(
-                getApplication(),
-                "Favor de llenar alguno de los datos",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
