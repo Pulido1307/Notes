@@ -12,28 +12,22 @@ import java.io.File
 
 @Composable
 fun NoteImage(
-    imagePath: String,
+    imageUri: Uri?,
     modifier: Modifier = Modifier
 ) {
-    if (imagePath.isNotEmpty()) {
-        val imageFile = File(imagePath)
+    if (imageUri != null) {
         AsyncImage(
-            model = imageFile, // Coil carga el archivo de forma asíncrona
+            model = imageUri,
             contentDescription = "Imagen de la nota",
-            modifier = modifier
-                .fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             contentScale = ContentScale.Crop
         )
     }
 }
 
+// Para usarla en el caso de que la nota ya tenga una imagen guardada como String
 @Composable
-fun NoteImage(imageUri: Uri, modifier: Modifier = Modifier) {
-    // Coil recibe directamente la URI
-    AsyncImage(
-        model = imageUri,
-        contentDescription = "Imagen de la nota",
-        modifier = modifier.fillMaxWidth(),
-        contentScale = ContentScale.Crop
-    )
+fun NoteImage(imagePath: String?, modifier: Modifier = Modifier) {
+    val imageUri = Uri.fromFile(File(imagePath))
+    NoteImage(imageUri = imageUri, modifier = modifier)
 }
