@@ -16,7 +16,7 @@ fun NavigationWrapper() {
 
     NavHost(
         navController = navController,
-        startDestination = DetailScreen.route
+        startDestination = HomeScreen.route
     ) {
         composable(HomeScreen.route) {
             HomeScreen()
