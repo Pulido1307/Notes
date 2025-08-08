@@ -1,6 +1,7 @@
 package com.antonio.pulido.notes.ui.composables.card
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,11 +34,16 @@ fun NoteCard(
     title: String,
     content: String,
     onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = spacing.spaceMedium),
+            .padding(bottom = spacing.spaceMedium)
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
@@ -45,7 +51,6 @@ fun NoteCard(
         shape = RoundedCornerShape(
             10
         ),
-        onClick = onClick
     ) {
         Column(
             modifier = modifier
