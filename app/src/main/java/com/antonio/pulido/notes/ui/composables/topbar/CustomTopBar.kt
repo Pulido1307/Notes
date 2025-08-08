@@ -25,6 +25,7 @@ fun CustomTopBar(
     @StringRes title: Int,
     isHome: Boolean,
     navigationAction: () -> Unit = {},
+    actionClick: () -> Unit = {}
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -50,7 +51,7 @@ fun CustomTopBar(
         },
         actions = {
             if (!isHome) {
-                IconButton(onClick = navigationAction) {
+                IconButton(onClick = actionClick) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_check),
                         contentDescription = stringResource(id = R.string.navigation_icon_content_desc),

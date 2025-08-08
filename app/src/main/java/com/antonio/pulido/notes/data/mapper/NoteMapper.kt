@@ -9,3 +9,9 @@ fun NoteEntity.toDomain() = Note(
     content = this.content,
     imagePath = this.imagePath
 )
+
+fun Note.toDataRequest() = NoteEntity(
+    title = this.title,
+    content = this.content,
+    imagePath = this.imagePath
+)

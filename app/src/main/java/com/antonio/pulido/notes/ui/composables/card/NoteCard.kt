@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -51,7 +52,6 @@ fun NoteCard(
                 .fillMaxWidth()
                 .padding(spacing.spaceMedium),
             verticalArrangement = Arrangement.spacedBy(spacing.spaceMedium),
-            horizontalAlignment = Alignment.End
         ) {
             Text(
                 text = title,
@@ -63,22 +63,27 @@ fun NoteCard(
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = modifier
-                    .size(45.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondary)
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
-                Icon(
-                    painter = painterResource(
-                        id = R.drawable.ic_draw
-                    ),
-                    contentDescription = "",
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = modifier
-                        .size(24.dp),
-                    tint = Color.White
-                )
+                        .size(45.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.secondary)
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.ic_draw
+                        ),
+                        contentDescription = "",
+                        modifier = modifier
+                            .size(24.dp),
+                        tint = MaterialTheme.colorScheme.onSecondary
+                    )
+                }
             }
         }
     }

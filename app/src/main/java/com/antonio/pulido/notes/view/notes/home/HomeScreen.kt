@@ -1,5 +1,6 @@
 package com.antonio.pulido.notes.view.notes.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,7 @@ import com.antonio.pulido.notes.ui.theme.LocalSpacing
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    navToDetailNote: (Int) -> Unit,
     spacing: Dimensions = LocalSpacing.current,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -31,7 +33,7 @@ fun HomeScreen(
         title = R.string.home_screen_title,
         floatingActionButton = {
             CustomFab(
-                onClick = {},
+                onClick = { navToDetailNote(-1) },
                 icon = R.drawable.ic_add,
                 text = R.string.add_button,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -43,14 +45,16 @@ fun HomeScreen(
             columns = GridCells.Fixed(2),
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = spacing.spaceMedium)
+                .padding(top = spacing.spaceMedium)
+                .padding(horizontal = spacing.spaceMedium),
+            horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall)
         ) {
             items(uiState.notes) { note ->
                 NoteCard(
                     title = note.title,
                     content = note.content
                 ) {
-
+                    navToDetailNote(note.id)
                 }
             }
             item {

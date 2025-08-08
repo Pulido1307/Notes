@@ -20,17 +20,21 @@ fun CustomScaffold(
     @StringRes title: Int,
     isHome: Boolean = true,
     floatingActionButton: @Composable () -> Unit,
-    contentBody: @Composable () -> Unit
+    actionClick: () -> Unit = {},
+    navigationAction: () -> Unit = {},
+    contentBody: @Composable () -> Unit,
 ) {
     Scaffold(
         topBar = {
             CustomTopBar(
                 title = title,
-                isHome = isHome
+                isHome = isHome,
+                actionClick = actionClick,
+                navigationAction = navigationAction
             )
         },
         floatingActionButton = {
-           floatingActionButton()
+            floatingActionButton()
         }
     ) { paddingValues ->
         Surface(
