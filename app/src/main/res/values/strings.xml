@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <!-- Fabs   -->
+    <string name="image_fab">Imagen</string>
+    <string name="draw_fab">Dibujo</string>
+    <string name="add_button">Agregar</string>
+
+
+
+    <!-- Titles Screens   -->
+    <string name="home_screen_title">Menú principal</string>
+    <string name="add_note_screen_title">Agregar Nota</string>
+    <string name="edit_note_screen_title">Editar Nota</string>
+
+    <!-- DetailScreen   -->
+    <string name="title_note_label">Título</string>
+    <string name="title_note_placeholder">Título de la nota....</string>
+    <string name="content_note_label">Escribe aquí...</string>
+    <!-- Content description   -->
+    <string name="navigation_icon_content_desc">Icono de TopBar</string>
+    <string name="fab_icon_content_desc">Fab Icon</string>
+    <string name="fab_menu_icon_content_desc">Fab Menu</string>
 </resources>
