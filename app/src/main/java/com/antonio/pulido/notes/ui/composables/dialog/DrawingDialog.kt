@@ -20,19 +20,23 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.antonio.pulido.notes.R
+import com.antonio.pulido.notes.ui.theme.Dimensions
+import com.antonio.pulido.notes.ui.theme.LocalSpacing
 
 @Composable
 fun DrawingDialog(
+    spacing: Dimensions = LocalSpacing.current,
     onDrawingFinished: (Bitmap) -> Unit,
     onDismiss: () -> Unit
 ) {
     var currentColor by remember { mutableStateOf(Color.Black) }
     var currentStrokeWidth by remember { mutableFloatStateOf(5f) }
 
-    // Estado del lienzo: almacena todos los trazos
     val paths = remember { mutableStateListOf<Pair<Path, Color>>() }
     var currentPath by remember { mutableStateOf(Path()) }
     var lastOffset by remember { mutableStateOf(Offset.Unspecified) }
@@ -44,17 +48,21 @@ fun DrawingDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
+                .padding(spacing.spaceMedium)
+                .background(MaterialTheme.colorScheme.onPrimary, MaterialTheme.shapes.medium)
                 .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
-                .padding(16.dp),
+                .padding(spacing.spaceMedium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Dibujar", style = MaterialTheme.typography.titleLarge)
-            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.draw_title),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            )
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
 
-            // Controles de color y grosor (igual que antes)
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium)) {
                 val colors = listOf(Color.Black, Color.Red, Color.Blue, Color.Green, Color.Yellow)
                 items(colors) { color ->
                     val isSelected = currentColor == color
@@ -72,9 +80,9 @@ fun DrawingDialog(
                     ) {}
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(spacing.spaceSmall))
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text("Grosor:", style = MaterialTheme.typography.bodySmall)
@@ -88,13 +96,13 @@ fun DrawingDialog(
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Canvas de dibujo
+
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
-                    .background(Color.White)
-                    .border(1.dp, Color.Black)
+                    .background(MaterialTheme.colorScheme.onPrimary)
+                    .border(1.dp, MaterialTheme.colorScheme.onSecondary)
                     .pointerInput(Unit) {
                         detectDragGestures(
                             onDragStart = { offset ->
@@ -120,38 +128,54 @@ fun DrawingDialog(
                         )
                     }
             ) {
-                // Dibujamos todos los trazos guardados
+
                 paths.forEach { (path, color) ->
                     drawPath(
                         path = path,
                         color = color,
-                        style = Stroke(width = currentStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
+                        style = Stroke(
+                            width = currentStrokeWidth,
+                            cap = StrokeCap.Round,
+                            join = StrokeJoin.Round
+                        )
                     )
                 }
-                // Dibujamos el trazo actual
+
                 drawPath(
                     path = currentPath,
                     color = currentColor,
-                    style = Stroke(width = currentStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
+                    style = Stroke(
+                        width = currentStrokeWidth,
+                        cap = StrokeCap.Round,
+                        join = StrokeJoin.Round
+                    )
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
 
-            // Botones de acción
+
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 TextButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Cancelar")
-                    Spacer(Modifier.width(8.dp))
-                    Text("Cancelar")
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = stringResource(id = R.string.cancel_content_desc)
+                    )
+                    Spacer(Modifier.width(spacing.spaceSmall))
+                    Text(text = stringResource(id = R.string.cancel_button))
                 }
-                Spacer(modifier = Modifier.width(8.dp))
-                Button(onClick = {
-                    val bitmap = captureDrawing(paths)
-                    onDrawingFinished(bitmap)
-                }) {
-                    Icon(Icons.Filled.Check, contentDescription = "Guardar dibujo")
-                    Spacer(Modifier.width(8.dp))
-                    Text("Guardar")
+                Spacer(modifier = Modifier.width(spacing.spaceSmall))
+                Button(
+                    onClick = {
+                        val bitmap = captureDrawing(paths)
+                        onDrawingFinished(bitmap)
+                    }
+                ) {
+                    Icon(
+                        Icons.Filled.Check,
+                        contentDescription = stringResource(id = R.string.save_draw_content_desc)
+                    )
+                    Spacer(Modifier.width(spacing.spaceMedium))
+                    Text(stringResource(id = R.string.save_button))
                 }
             }
         }
@@ -169,7 +193,6 @@ fun captureDrawing(paths: List<Pair<Path, Color>>): Bitmap {
         isAntiAlias = true
     }
 
-    // Dibuja cada path en el bitmap
     paths.forEach { (path, color) ->
         paint.color = color.toArgb()
         canvas.drawPath(path.asAndroidPath(), paint)

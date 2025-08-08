@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.antonio.pulido.notes.R
 import com.antonio.pulido.notes.ui.theme.Dimensions
@@ -48,7 +49,7 @@ fun NoteCard(
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         shape = RoundedCornerShape(
-            10
+            spacing.cornerRadiusSmall
         ),
     ) {
         Column(
@@ -80,9 +81,9 @@ fun NoteCard(
                 ) {
                     Icon(
                         painter = painterResource(
-                            id = R.drawable.ic_draw
+                            id = R.drawable.ic_note
                         ),
-                        contentDescription = "",
+                        contentDescription = stringResource(id = R.string.note_icon_content_desc),
                         modifier = modifier
                             .size(24.dp),
                         tint = MaterialTheme.colorScheme.onSecondary

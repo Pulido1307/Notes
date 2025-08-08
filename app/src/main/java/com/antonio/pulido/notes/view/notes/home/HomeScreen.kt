@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.antonio.pulido.notes.R
 import com.antonio.pulido.notes.ui.composables.bottomsheet.CustomBottomSheetLayout
@@ -107,9 +106,12 @@ fun HomeScreen(
                     ) {
 
                         TextButton(onClick = { homeViewModel.onEvent(HomeViewEvent.HiddenDeleteDialog) }) {
-                            Icon(Icons.Filled.Close, contentDescription = "Cancelar")
-                            Spacer(Modifier.width(8.dp))
-                            Text("Cancelar")
+                            Icon(
+                                Icons.Filled.Close,
+                                contentDescription = stringResource(id = R.string.cancel_content_desc)
+                            )
+                            Spacer(Modifier.width(spacing.spaceSmall))
+                            Text(stringResource(id = R.string.cancel_button))
                         }
 
                         Button(
@@ -117,9 +119,12 @@ fun HomeScreen(
                                 homeViewModel.onEvent(HomeViewEvent.DeleteNote)
                             }
                         ) {
-                            Icon(Icons.Filled.Check, contentDescription = "Guardar dibujo")
-                            Spacer(Modifier.width(8.dp))
-                            Text("Confirmar")
+                            Icon(
+                                Icons.Filled.Check,
+                                contentDescription = stringResource(id = R.string.delete_note_content_desc)
+                            )
+                            Spacer(Modifier.width(spacing.spaceSmall))
+                            Text(stringResource(id = R.string.confirm_button))
                         }
                     }
 

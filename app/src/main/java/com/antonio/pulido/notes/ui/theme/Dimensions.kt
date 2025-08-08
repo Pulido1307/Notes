@@ -11,6 +11,7 @@ data class Dimensions(
     val spaceMedium: Dp = 16.dp,
     val spaceLarge: Dp = 32.dp,
     val spaceExtraLarge: Dp = 72.dp,
+    val cornerRadiusSmall: Dp = 10.dp,
     val cornerRadiusMedium: Dp = 20.dp
 )
 
