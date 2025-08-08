@@ -1,6 +1,7 @@
 package com.antonio.pulido.notes.view.notes.detail
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import com.antonio.pulido.notes.R
@@ -8,6 +9,7 @@ import com.antonio.pulido.notes.domain.model.Note
 import com.antonio.pulido.notes.domain.usecases.AddNoteUseCase
 import com.antonio.pulido.notes.domain.usecases.GetNoteByIdUseCase
 import com.antonio.pulido.notes.domain.usecases.UpdateNoteUseCase
+import com.antonio.pulido.notes.utils.saveBitmapAndGetUri
 import com.antonio.pulido.notes.utils.saveImageFromUri
 import com.antonio.pulido.notes.view.core.base.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,8 +49,30 @@ class DetailViewModel @Inject constructor(
             )
 
             is DetailViewEvent.GetNoteById -> getNoteById(event.id)
+            is DetailViewEvent.OnChangeDrawingFinished -> onChangeDrawingFinished(event.bitmap)
+
             DetailViewEvent.SaveNote -> saveNote()
+            DetailViewEvent.HiddenDrawingDialog -> setStatusShowDialog(false)
+            DetailViewEvent.ShowDrawingDialog -> setStatusShowDialog(true)
         }
+    }
+
+    private fun onChangeDrawingFinished(bitmap: Bitmap) = viewModelScope.launch {
+        updateViewState(
+            currentViewState<DetailViewState>().copy(
+                imagePath = saveBitmapAndGetUri(getApplication(), bitmap),
+                imagePathRecovery = null,
+                showDrawingDialog = false
+            )
+        )
+    }
+
+    private fun setStatusShowDialog(isShow: Boolean) {
+        updateViewState(
+            currentViewState<DetailViewState>().copy(
+                showDrawingDialog = isShow
+            )
+        )
     }
 
     private fun getNoteById(id: Int) = viewModelScope.launch {

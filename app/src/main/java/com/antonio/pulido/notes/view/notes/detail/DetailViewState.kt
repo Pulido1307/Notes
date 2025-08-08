@@ -7,6 +7,7 @@ import com.antonio.pulido.notes.view.core.base.viewstate.ViewState
 
 data class DetailViewState(
     val successAddOrEdit: Boolean = false,
+    val showDrawingDialog: Boolean = false,
     @StringRes val titleScreen: Int = R.string.add_note_screen_title,
     val id: Int? = null,
     val title: String = "",

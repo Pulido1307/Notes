@@ -17,6 +17,8 @@
     <string name="title_note_label">Título</string>
     <string name="title_note_placeholder">Título de la nota....</string>
     <string name="content_note_label">Escribe aquí...</string>
+    <!-- HomeScreen   -->
+    <string name="confirm_delete_title">¿Está seguro de borrar?</string>
     <!-- Content description   -->
     <string name="navigation_icon_content_desc">Icono de TopBar</string>
     <string name="fab_icon_content_desc">Fab Icon</string>
