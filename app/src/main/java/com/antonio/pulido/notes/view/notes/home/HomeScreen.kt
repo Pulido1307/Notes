@@ -1,5 +1,9 @@
 package com.antonio.pulido.notes.view.notes.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -63,16 +67,27 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall)
         ) {
             items(uiState.notes) { note ->
-                NoteCard(
-                    title = note.title,
-                    content = note.content,
-                    onClick = {
-                        navToDetailNote(note.id)
-                    },
-                    onLongClick = {
-                        homeViewModel.onEvent(HomeViewEvent.ShowDeleteDialog(note.id))
-                    }
-                )
+                AnimatedVisibility(
+                    visible = true, // Siempre visible una vez que se carga
+                    enter = slideInVertically(
+                        initialOffsetY = { it },
+                        animationSpec = tween(durationMillis = 500, delayMillis = note.id * 50)
+                    ) + fadeIn(
+                        initialAlpha = 0.3f,
+                        animationSpec = tween(durationMillis = 500, delayMillis = note.id * 50)
+                    )
+                ) {
+                    NoteCard(
+                        title = note.title,
+                        content = note.content,
+                        onClick = {
+                            navToDetailNote(note.id)
+                        },
+                        onLongClick = {
+                            homeViewModel.onEvent(HomeViewEvent.ShowDeleteDialog(note.id))
+                        }
+                    )
+                }
             }
             item {
                 Spacer(modifier = modifier.height(spacing.spaceExtraLarge))
