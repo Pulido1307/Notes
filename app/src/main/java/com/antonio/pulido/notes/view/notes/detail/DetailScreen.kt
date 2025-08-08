@@ -1,7 +1,6 @@
 package com.antonio.pulido.notes.view.notes.detail
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -17,11 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.antonio.pulido.notes.R
-import com.antonio.pulido.notes.ui.composables.buttons.CustomFab
 import com.antonio.pulido.notes.ui.composables.buttons.CustomFabMenu
+import com.antonio.pulido.notes.ui.composables.dialog.DrawingDialog
 import com.antonio.pulido.notes.ui.composables.image.NoteImage
 import com.antonio.pulido.notes.ui.composables.scaffold.CustomScaffold
 import com.antonio.pulido.notes.ui.composables.textfield.CustomTextField
@@ -57,6 +55,7 @@ fun DetailScreen(
         floatingActionButton = {
             CustomFabMenu(
                 onAddDrawClick = {
+                    detailViewModel.onEvent(DetailViewEvent.ShowDrawingDialog)
                 },
                 onAddImageClick = {
                     pickImageLauncher.launch("image/*")
@@ -114,6 +113,15 @@ fun DetailScreen(
             LaunchedEffect(true) {
                 onBack()
             }
+        }
+
+        uiState.showDrawingDialog -> {
+            DrawingDialog(
+                onDrawingFinished = { detailViewModel.onEvent(DetailViewEvent.OnChangeDrawingFinished(it))},
+                onDismiss = {
+                    detailViewModel.onEvent(DetailViewEvent.HiddenDrawingDialog)
+                }
+            )
         }
     }
 }
